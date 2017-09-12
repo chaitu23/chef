@@ -1,0 +1,26 @@
+---
+driver:
+  name: ec2
+  aws_ssh_key_id: krazybat
+  region: us-east-1
+  availability_zone: d
+  require_chef_omnibus: true
+  instance_type: t2.micro
+  interface: dns
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  -name: RHEL7
+  driver:
+    image_id: ami-4fffc834
+  transport:
+    username: ec2-user
+    ssh_key: krazybat.pem
+
+suites:
+  - name: default
+    run_list:
+      - recipe[/test/integration/default/ServerSpec/default_spec.rb]
+    attributes:
